@@ -22,6 +22,28 @@
 | `8081:8081/tcp` | Default 7DaysToDie telnet port **optional** |
 | `8082:8082/tcp` | Default [Alloc Fixes Map GUI](https://7dtd.illy.bz/wiki/Server%20fixes) webserver port **optional** |
 
+### General Tips about changing/mapping default Game Port
+If you set the Game Port to 26900 (default port) the server will automatically set two consecutive ports: 26901 and 26902.
+
+If you want to change de default Game Port (26900) only port mapping wont work, because steam will announce the server in the default port (26900) and players will be unable to join.
+You need to edit the /ServerFiles/sdtdserver.xml and update the game port (ServerPort) there too.
+
+In case you have 2 containers in the Same Server, you can use the default ports in Container-1 and update Container-2 ports to something like:
+
+|Container 1 | Container 2|
+| --- | --- |
+| `26900:26900/tcp` | `26905:26905/tcp`  #Need to edit /ServerFiles/sdtdserver.xml: property name="ServerPort" value="26905" |
+| `26900:26900/udp` | `26905:26905/udp`  |
+| `26901:26901/udp` | `26906:26906/udp`  #Will be automatically and consecutive allocated after the ServerPort defined. |
+| `26902:26902/udp` | `26907:26907/udp`  #Will be automatically and consecutive allocated after the ServerPort defined. |
+| `8080:8080/tcp` | `8090:8080/tcp`  #Can be mapped without consequences |
+| `8081:8081/tcp` | `8091:8081/tcp`  #Can be mapped without consequences |
+| `8082:8082/tcp` | `8092:8082/tcp`  #Can be mapped without consequences |
+
+### Troubleshooting Connection Issues
+Steam Announces the wrong Game Port - Check /ServerFiles/sdtdserver.xml 
+NET: LiteNetLib: Connection failed: ConnectionFailed - The two consecutive ports automatically defined after the game port are closed on the server or incorrectly mapped.
+
 ## General
 
 | Parameter | Function | Values |
